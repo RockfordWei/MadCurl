@@ -22,7 +22,7 @@ public class Benchmark {
   }//end lapse
 }//end class
 
-func testA() -> Int {
+func test() -> Int {
   let curl = CURL(url:"http://google.ca")
   let b = Benchmark()
   var x = 0
@@ -30,31 +30,11 @@ func testA() -> Int {
     x = b.lapse
     curl.close()
   }//end
-  while(x == 0) { usleep(1) }
+  while(x == 0) { sleep(1) }
   return x
 }
 
-var x = 10
-var y = 10
-if CommandLine.arguments.count < 3 {
-  print("\(CommandLine.arguments[0]) [sync test times = 10] [async test time = 10]")
-}else{
-  x = Int(CommandLine.arguments[1]) ?? 10
-  y = Int(CommandLine.arguments[2]) ?? 10
-}//end if
-func testB() -> Int {
-  let curl = CURL(url:"http://google.ca")
-  let b = Benchmark()
-  let _ = curl.performFully()
-  return b.lapse
-}
-
-print("synchronous testing (\(x) times):")
-for _ in 1 ... x {
-  print(testB())
-}
-
-print("asynchronous testing (\(y) times):")
+print("asynchronous testing (\(100) times):")
 for _ in 1 ... y {
-  print(testA())
+  print(test())
 }
