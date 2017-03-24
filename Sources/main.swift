@@ -35,6 +35,6 @@ func test() -> Int {
 }
 
 print("asynchronous testing (\(100) times):")
-for _ in 1 ... y {
+for _ in 1 ... 100 {
   print(test())
 }
