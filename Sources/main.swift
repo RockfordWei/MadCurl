@@ -20,4 +20,4 @@ func test(_ remain: Int) {
 
 print("asynchronous testing (\(10) times):")
 test(10)
-let _ = getch()
+let _ = getchar()
