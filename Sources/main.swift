@@ -6,35 +6,18 @@ import Darwin
 
 import PerfectCURL
 
-public class Benchmark {
-  private var now = timeval()
-  private var then = timeval()
-  public init () { let _ = gettimeofday(&now, nil) }
-
-  public var lapse: Int { get {
-    let _ = gettimeofday(&then, nil)
-    let u = Int64(then.tv_usec - now.tv_usec)
-    let s = Int64(then.tv_sec - now.tv_sec)
-    let d = s * Int64(1000000) + u
-    now = then
-    return Int(d)
-    }//end get
-  }//end lapse
-}//end class
-
-func test() -> Int {
+func test(_ remain: Int) {
+  if remain < 1 {
+    exit(0)
+  }
   let curl = CURL(url:"http://google.ca")
-  let b = Benchmark()
-  var x = 0
-  let _ = curl.perform { _, _, code in
-    x = b.lapse
+  let _ = curl.perform { _ in
     curl.close()
+    print(remain)
+    test(remain - 1)
   }//end
-  while(x == 0) { sleep(1) }
-  return x
 }
 
-print("asynchronous testing (\(100) times):")
-for _ in 1 ... 100 {
-  print(test())
-}
+print("asynchronous testing (\(10) times):")
+test(10)
+sleep(120)
